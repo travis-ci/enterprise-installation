@@ -18,6 +18,8 @@ fi
 echo 'DOCKER_OPTS="-d --exec-driver=lxc $DOCKER_MOUNT_POINT"' >> /etc/default/docker
 
 service docker restart
+sleep 3
+
 # pull the images
 docker pull quay.io/travisci/te-main
 docker tag quay.io/travisci/te-main te-main
