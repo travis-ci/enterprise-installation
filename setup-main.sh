@@ -9,7 +9,15 @@ echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docke
 apt-get update
  
 apt-get install -y linux-image-extra-`uname -r` lxc lxc-docker-1.0.0
- 
+
+if [[ $AWS ]]; then
+  DOCKER_MOUNT_POINT="--graph=/mnt/docker"
+fi
+
+# use LXC, and disable inter-container communication
+echo 'DOCKER_OPTS="-d --exec-driver=lxc $DOCKER_MOUNT_POINT"' >> /etc/default/docker
+
+service docker restart
 # pull the images
 docker pull quay.io/travisci/te-main
 docker tag quay.io/travisci/te-main te-main
