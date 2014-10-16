@@ -15,11 +15,11 @@ if [[ $AWS ]]; then
 fi
 
 # use LXC, and disable inter-container communication
-echo 'DOCKER_OPTS="-d --icc=false --exec-driver=lxc '$DOCKER_MOUNT_POINT'"' >> /etc/default/docker
+echo 'DOCKER_OPTS="--icc=false --exec-driver=lxc '$DOCKER_MOUNT_POINT'"' >> /etc/default/docker
 
 service docker restart
 
-docker pull quay.io/travisci/te-worker
+docker pull quay.io/travisci/te-worker:latest
 docker tag quay.io/travisci/te-worker te-worker
 docker pull quay.io/travisci/travis
  
