@@ -1,6 +1,7 @@
 Installing Travis CI Enterprise
 ===============================
 
+**Please email enterprise@travis-ci.com for more information on pricing and to register for a 45 day trial.**
 
 ## Prerequisites
 
@@ -24,7 +25,7 @@ Otherwise we recommend hosts with 16 gigs of RAM and 8 CPUs.
 
 ## Obtaining a license.yml file
 
-We will provide you with a license.yml file separately.
+**Please email enterprise@travis-ci.com for your license.yml file.**
 
 Please copy/paste or upload the generated license to the te-main box and place 
 it in the root users home directory (/home/license.yml).
