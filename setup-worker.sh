@@ -21,7 +21,7 @@ service docker restart
 
 docker pull quay.io/travisci/te-worker:latest
 docker tag quay.io/travisci/te-worker te-worker
-docker pull quay.io/travisci/travis
+docker pull -a quay.io/travisci/travis
  
 for lang in $(docker images | grep quay.io/travisci/travis | awk '{ print $2 }'); do 
   docker tag quay.io/travisci/travis:$lang travis:$lang 
@@ -33,6 +33,4 @@ te start
 
 # enable memory and swap accounting (optional, but recommended)
 sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"/' /etc/default/grub
-
-# set permissions for travis.yml, everyone needs to be able to read it
 reboot
