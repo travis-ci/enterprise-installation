@@ -21,10 +21,13 @@ service docker restart
 
 docker pull quay.io/travisci/te-worker:latest
 docker tag quay.io/travisci/te-worker te-worker
-docker pull quay.io/travisci/travis
- 
-for lang in $(docker images | grep quay.io/travisci/travis | awk '{ print $2 }'); do 
-  docker tag quay.io/travisci/travis:$lang travis:$lang 
+
+# pick the languages you are interested in
+langs='android erlang go haskell jvm node-js perl php python ruby'
+tag=latest
+for lang in $langs; do
+  docker pull quay.io/travisci/travis-$lang:$tag
+  docker tag quay.io/travisci/travis-$lang:$tag travis:$lang
 done
  
 # run the install script 
