@@ -18,6 +18,7 @@ fi
 echo 'DOCKER_OPTS="--exec-driver=lxc '$DOCKER_MOUNT_POINT'"' >> /etc/default/docker
 
 service docker restart
+sleep 1
 
 # pull the images
 docker pull quay.io/travisci/te-main:latest
@@ -31,4 +32,4 @@ te start
 chmod a+r /etc/travis/license.yml
  
 # grab the generated rabbitmq password, you'll need it for setting up the worker box:
-grep RABBITMQ /etc/travis/env.sh | sed 's/.*=//'
+echo "The RabbitMQ password for Travis CI Enterprise is: $(grep RABBITMQ /etc/travis/env.sh | sed 's/.*=//')"
