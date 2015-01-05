@@ -19,6 +19,8 @@ echo 'DOCKER_OPTS="--icc=false --exec-driver=lxc '$DOCKER_MOUNT_POINT'"' >> /etc
 
 service docker restart
 
+sleep 2
+
 docker pull quay.io/travisci/te-worker:latest
 docker tag quay.io/travisci/te-worker te-worker
 
