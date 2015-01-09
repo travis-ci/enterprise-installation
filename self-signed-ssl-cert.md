@@ -1,13 +1,13 @@
 Importing a certificate on Mac OS X can be a bit of a hassle. Here's how it works for me.
 
-* Klick on the SSL lock in the URL bar. Then click "Certificate Information".
+* Click on the SSL lock in the URL bar then click "Certificate Information".
 * Drag and drop the certificate to your desktop.
-* Double click the certificate on your desktop, this will open a Mac OS X keychain dialog.
-* Klick "Add" to confirm you want to add it to your keychain.
+* Double click the certificate on your desktop. This will open a Mac OS X keychain dialog.
+* Click "Add" to confirm you want to add it to your keychain.
 * In the next dialog click "Always trust".
-* It will ask you for your system password, enter it. 
+* It will ask you for your system password; enter it.
 
-Now, normally this should be all you need to do. But for me this doesn't work, yet: When I reload the page in Chrome I'll still get the same SSL error. Instead of actually applying my choice to "Always trust" Mac OS X would only apply "Custom Settings" which don't seem to be sufficient. 
+Now, normally this should be all you need to do. But for me this doesn't work, yet: When I reload the page in Chrome I'll still get the same SSL error. Instead of actually applying my choice to "Always trust" Mac OS X would only apply "Custom Settings" which don't seem to be sufficient.
 
 This should fix it:
 
