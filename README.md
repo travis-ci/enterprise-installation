@@ -239,3 +239,8 @@ the default `travis:ruby` image, and make it persistent, you can run:
 docker run -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
 docker commit travis_ruby travis:ruby
 ```
+
+### Starting a console
+
+In order to start an IRB console you can run `te console` on the main host, or inside 
+the `te-main` container.
