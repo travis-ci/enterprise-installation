@@ -130,10 +130,12 @@ To re-enter or change your configuration (e.g. fix a host name or add email smtp
 
 ```
 te configure --prompt
-te start
+```
 
-# or:
-te start --prompt
+Then restart the container:
+
+```
+te start
 ```
 
 ### Configuring your installation with advanced options
@@ -146,7 +148,7 @@ E.g. in order to enable email notifications you can provide settings for your
 SMTP service like so:
 
 ```
-te configure --prompt --group smtp
+te configure --group smtp
 ```
 
 The following configuration groups are currently available:
