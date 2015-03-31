@@ -72,6 +72,14 @@ Then run:
 curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-main.sh | bash
 ```
 
+If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
+```
+...
+# If you need Docker to use an HTTP proxy, it can also be specified here.
+export http_proxy="http://proxy.mycompany.corp:8080/"
+...
+```
+
 
 ### Setting up te-worker
 
@@ -90,6 +98,14 @@ Then run:
 
 ```
 curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | bash
+```
+
+If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
+```
+...
+# If you need Docker to use an HTTP proxy, it can also be specified here.
+export http_proxy="http://proxy.mycompany.corp:8080/"
+...
 ```
 
 Once rebooted the te-worker container should start and connect to te-main automatically.
