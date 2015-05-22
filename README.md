@@ -36,22 +36,21 @@ the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
 
 ### Setting up the Travis CI Enterprise Platform
 
-Installation of the Platform host is done through either running the following script on the host:
+The recommended installation of the Platform host is done through running the following script on the host:
 
 `curl -sSL https://enterprise.travis-ci.com/install | sudo sh`
 
 (We recommend downloading the reading the script before running it)
 
-This will install the management application, which takes care of downloading and installing the Travis CI Platform, provides a simple UI for setting up the platform, as well as some runtime metrics.
+This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
-Once the script has run you can navigate to http://<hostname>:8800
+Once the script has run you can navigate to http://<hostname>:8800 to complete the setup.
 
 From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
 
-If you are running the Platform host on EC2, we recommend using an image which uses EBS for the root volume and allocating 30 gigs to it. It is also recommended to not destroy the volume on instance termination.
+If you are running the Platform host on EC2, we recommend using an image which uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
 
-
-If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
+If you are behind a web proxy and Docker fails to download the image(s), please edit ```/etc/default/docker``` and set your proxy there.
 ```
 ...
 # If you need Docker to use an HTTP proxy, it can also be specified here.
@@ -60,15 +59,11 @@ export http_proxy="http://proxy.mycompany.corp:8080/"
 ```
 
 
-
-
-
-
 ### Setting up a Travis CI Enterprise Worker
 
-For setting up a Worker host you'll need the RabbitMQ password which is accessible from the Travis CI Enterprise Platform management UI.
+For setting up a Worker host you'll need the RabbitMQ password, which you can find from the Travis CI Enterprise Platform management UI.
 
-Before running the following commands, please make sure you are logged in as the root user first.
+Before running the following commands, please make sure you are logged in as as user who has access to sudo.
 
 If the Worker host is running on EC2 please run the following command:
 
@@ -90,7 +85,7 @@ export http_proxy="http://proxy.mycompany.corp:8080/"
 ...
 ```
 
-Once rebooted, the Worker container should start and connect to the Platform automatically.
+It is highly recommended to reboot you host after completing the installaion.
 
 
 
