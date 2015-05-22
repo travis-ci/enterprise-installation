@@ -12,24 +12,18 @@ Installing Travis CI Enterprise
 
 ## Host Machines
 
-The standard setup consists of two hosts, the Travis CI Enterprise platform server which hosts the web UI and 
-related services, and one or more Worker hosts which run the tests/jobs in isolated containers using LXC and Docker.
+The standard setup consists of two hosts, the Travis CI Enterprise Platform which hosts the web UI and related services, and one or more Worker hosts which run the tests/jobs in isolated containers using LXC and Docker.
 
-If you are using EC2 then we recommend the **c3.2xlarge** instance type.
+If you are using EC2 then we recommend the **c3.2xlarge** instance types.
 
-Otherwise we recommend hosts with 16 gigs of RAM and 8 CPUs.
-
+For other setups we recommend hosts with 16 gigs of RAM and 8 CPUs.
 
 
 ## Register a GitHub OAuth app
 
-Travis CI talks to GitHub Enterprise via OAuth. You will need to create an OAuth app 
-on your GitHub Enterprise which Travis CI Enterprise can connect to.
+Travis CI Enterprise talks to GitHub Enterprise via OAuth. You will need to create an OAuth app on your GitHub Enterprise which Travis CI Enterprise can connect to.
 
-The OAuth app registered will use the domain name pointing to your Platform host for 
-the Homepage URL (e.g. https://travis-ci.your-domain.com). Append /api to this for 
-the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
-
+The OAuth app registered will use the domain name pointing to your Platform host for  the Homepage URL (e.g. https://travis-ci.your-domain.com). Append /api to this for the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
 
 
 ## Installation
@@ -88,10 +82,12 @@ export http_proxy="http://proxy.mycompany.corp:8080/"
 It is highly recommended to reboot you host after completing the installaion.
 
 
-
 ## Maintenance
 
 ### Updating your Travis CI Enterprise Platform
+
+You can check for new releases by going to the management interface dashboard (http://<hostname>:8800) and clicking on 'Check Now'. If an update is available you will be able to read the release notes and install the update.
+
 
 ### Updating your Travis CI Enterprise Worker
 
@@ -108,22 +104,7 @@ te start
 On both hosts the logs are located at /var/travis/log/travis.log, but also symlinked to /var/log/travis.log for convenience.
 
 
-
-### Reconfiguring the container
-
-To re-enter or change your worker configuration, please run:
-
-```
-te configure --prompt
-```
-
-Then restart the container:
-
-```
-te start
-```
-
-### Configuring your worker installation with advanced options
+### Configuring your Worker installation with advanced options
 
 During normal install you'll be asked to provide a few required configuration
 settings, however there are more configuration settings that can be specified.
@@ -143,10 +124,9 @@ te configure --group worker
 ```
 
 
+### Starting a build container on the worker host (debug containers)
 
-### Starting a build container on the worker host
-
-In order to start a build container on the Travis CI Enterprise worker host you can do the following:
+In order to start a build container on a Travis CI Enterprise Worker host you can do the following:
 
 ```
 # start a container and grab the port
@@ -160,6 +140,7 @@ ssh travis@localhost -p $port
 docker kill $id
 docker rm $id
 ```
+
 
 ### Customizing build images
 
