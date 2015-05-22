@@ -5,71 +5,70 @@ Installing Travis CI Enterprise
 
 ## Prerequisites
 
-- Two dedicated hosts or hypervisors (KVM/QEMU or VMWare) with Ubuntu 14.04 installed
+- Two dedicated hosts or hypervisors (VMWare, OpenStack using KVM, or EC2) with Ubuntu 14.04 installed
 - A Travis CI Enterprise license file
 - A GitHub Enterprise OAuth app
 
 
 ## Host Machines
 
-The standard setup consists of two hosts, a te-main server which hosts the web UI and 
-related services, and a te-worker server which runs the tests/jobs in isolated containers using LXC and Docker.
+The standard setup consists of two hosts, the Travis CI Enterprise Platform which hosts the web UI and related services, and one or more Worker hosts which run the tests/jobs in isolated containers using LXC and Docker.
 
-If you are using EC2 then we recommend the instance types:
+If you are using EC2 then we recommend the **c3.2xlarge** instance types.
 
-* `te-main`:   c3.2xlarge
-* `te-worker`: c3.2xlarge
-
-Otherwise we recommend hosts with 16 gigs of RAM and 8 CPUs.
-
-
-## Obtaining a license.yml file
-
-**Please email enterprise@travis-ci.com for your license.yml file.**
-
-Please copy/paste or upload the generated license to the te-main box and place 
-it in the root users home directory (/home/license.yml).
+For other setups we recommend hosts with 16 gigs of RAM and 8 CPUs.
 
 
 ## Register a GitHub OAuth app
 
-Travis CI talks to GitHub Enterprise via OAuth. You will need to create an OAuth app 
-on your GitHub Enterprise which Travis CI Enterprise can connect to.
+Travis CI Enterprise talks to GitHub Enterprise via OAuth. You will need to create an OAuth app on your GitHub Enterprise which Travis CI Enterprise can connect to.
 
-The OAuth app registered will use the domain name pointing to your te-main host for 
-the Homepage URL (e.g. https://travis-ci.your-domain.com). Append /api to this for 
-the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
+The OAuth app registered will use the domain name pointing to your Platform host for  the Homepage URL (e.g. https://travis-ci.your-domain.com). Append /api to this for the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
 
 
 ## Installation
 
-### Setting up te-main
+### Setting up the Travis CI Enterprise Platform
 
-During this process you will be asked for:
+The recommended installation of the Platform host is done through running the following script on the host:
 
-* the hostname of your te-main box
-* the GitHub endpoint, it's fine to just use github.com
-* credentials for a GitHub OAuth application for te-main
+`curl -sSL https://enterprise.travis-ci.com/install | sudo sh`
 
-It will also ask you for other configuration values, which are optional (e.g.
-email smtp settings). It is fine to just hit enter and leave these empty.
+(We recommend downloading the reading the script before running it)
 
-For the GitHub OAuth application set "Homepage URL" to the hostname of your
-te-main box (e.g. https://te-dev.travis-ci.com) and "Authorization callback
-URL" to `/api` on your te-main box (e.g. https://te-dev.travis-ci.com/api).
+This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
-Before running the following commands, please make sure you are logged in as the root user first.
+Once the script has run you can navigate to http://<hostname>:8800 to complete the setup.
 
-If you are running the host on EC2 then please run the following command:
+From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
+
+If you are running the Platform host on EC2, we recommend using an image which uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
+
+If you are behind a web proxy and Docker fails to download the image(s), please edit ```/etc/default/docker``` and set your proxy there.
+```
+...
+# If you need Docker to use an HTTP proxy, it can also be specified here.
+export http_proxy="http://proxy.mycompany.corp:8080/"
+...
+```
+
+
+### Setting up a Travis CI Enterprise Worker
+
+For setting up a Worker host you'll need the RabbitMQ password, which you can find from the Travis CI Enterprise Platform management UI.
+
+Before running the following commands, please make sure you are logged in as as user who has access to sudo.
+
+If the Worker host is running on EC2 please run the following command:
 
 ```
-export AWS=true
+curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | sudo AWS=true bash
 ```
 
-Then run:
+Otherwise run:
 
 ```
-curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-main.sh | bash
+curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | sudo bash
 ```
 
 If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
@@ -80,42 +79,19 @@ export http_proxy="http://proxy.mycompany.corp:8080/"
 ...
 ```
 
-
-### Setting up te-worker
-
-For setting up the `te-worker` box you'll need the RabbitMQ password which was
-generated by setting up `te-main`. See above.
-
-Before running the following commands, please make sure you are logged in as the root user first.
-
-If you are running the host on EC2 then please run the following command:
-
-```
-export AWS=true
-```
-
-Then run:
-
-```
-curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | bash
-```
-
-If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
-```
-...
-# If you need Docker to use an HTTP proxy, it can also be specified here.
-export http_proxy="http://proxy.mycompany.corp:8080/"
-...
-```
-
-Once rebooted the te-worker container should start and connect to te-main automatically.
+It is highly recommended to reboot you host after completing the installaion.
 
 
 ## Maintenance
 
-### Updating Travis CI Enterprise
+### Updating your Travis CI Enterprise Platform
 
-In order to update the Docker images and restart the Web UI and Worker you can run the following on each host:
+You can check for new releases by going to the management interface dashboard (http://<hostname>:8800) and clicking on 'Check Now'. If an update is available you will be able to read the release notes and install the update.
+
+
+### Updating your Travis CI Enterprise Worker
+
+In order to update the Docker images and restart the Worker you can run the following on each worker host:
 
 ```
 te pull
@@ -127,101 +103,30 @@ te start
 
 On both hosts the logs are located at /var/travis/log/travis.log, but also symlinked to /var/log/travis.log for convenience.
 
-Also, on both boxes there's an `~/.ssh/config` host configured named `te-main`
-and `te-worker` respectively. You should be able to ssh into the Docker
-containers by running `ssh te-main` and `ssh te-worker` on the respective
-boxes.
 
-
-### Accessing the UI
-
-A self-signed certificate is generated for your hostname. When you point your browser to your te-main hostname you'll get an SSL warning and it might not let you access the page until you've trusted the certificate.
-If you are using Chrome on Mac OS X then you may want to import and explicitly add and trust a certificate to the Mac OS X keychain. You can find instructions on how to do that here: https://github.com/travis-ci/enterprise-installation/blob/master/self-signed-ssl-cert.md
-If you have signed into your Travis CI Enterprise UI previously, or re-installed your Web UI host, you may see an empty page with loading indicators. This is a known bug in our UI. To fix this please sign out and back in.
-
-
-### Reconfiguring the container
-
-To re-enter or change your configuration (e.g. fix a host name or add email smtp configuration), please run:
-
-```
-te configure --prompt
-```
-
-Then restart the container:
-
-```
-te start
-```
-
-### Configuring your installation with advanced options
+### Configuring your Worker installation with advanced options
 
 During normal install you'll be asked to provide a few required configuration
-settings such as the instance's hostname and GitHub OAuth credentials.
-However, there are more configuration settings that can be specified.
-
-E.g. in order to enable email notifications you can provide settings for your
-SMTP service like so:
-
-```
-te configure --group smtp
-```
+settings, however there are more configuration settings that can be specified.
 
 The following configuration groups are currently available:
 
 ```
-# on te-main
-ghe      - GHE endpoint configuration options
-graphite - graphite endpoint for collecting metrics (beta)
-smtp     - SMTP service for email notifications
-
-# on te-worker
 rabbitmq - RabbitMQ configuration options
 s3       - S3 bucket credentials for dependency caching
 worker   - number of VMs to be used
 ```
 
-### Specifying an SSL certificate
-
-During installation of the `te-main` container, a self-signed certificate is generated for your
-hostname. In order to provide your own SSL certificate you can replace the
-following two files:
+eg. 
 
 ```
-/etc/travis/ssl/your_hostname.bundle
-/etc/travis/ssl/your_hostname.key
+te configure --group worker
 ```
 
-Then restart the `te-main` container:
 
-```
-te start
-```
+### Starting a build container on the worker host (debug containers)
 
-### Specifying a custom root certificate
-
-If your GHE instance uses a special (e.g. self-signed) root certificate, then you will want to import this to your
-`te-main` instance so it can connect via SSL.
-
-In order to provide a root certificate you can place it in:
-
-```
-/etc/travis/ssl/ca-certificates/some-name.crt
-```
-
-Then restart the `te-main` container:
-
-```
-te start
-```
-
-`te-main` will look for files in this directory, symlink them to `/usr/shared/ca-certificates`
-and run `update-ca-certificates`.
-
-
-### Starting a build container on te-worker
-
-In order to start a build container on the te-worker you can do the following:
+In order to start a build container on a Travis CI Enterprise Worker host you can do the following:
 
 ```
 # start a container and grab the port
@@ -236,13 +141,12 @@ docker kill $id
 docker rm $id
 ```
 
+
 ### Customizing build images
 
-Once you have pulled the build images from quay.io, and they've been re-tagged to
-`travis:[language]` you can fully customize these images according to your needs.
+Once you have pulled the build images from quay.io, and they've been re-tagged to `travis:[language]` you can fully customize these images according to your needs.
 
-Be aware that you'll need to re-apply your customizations after upgrading build
-images from quay.io.
+Be aware that you'll need to re-apply your customizations after upgrading build images from quay.io.
 
 The basic idea is to:
 
@@ -250,15 +154,10 @@ The basic idea is to:
 * run your customizations inside that container, and
 * commit the container to a Docker image with the original `travis:language` name (tag).
 
-For example, in order to install a particular Ruby version which is not available on
-the default `travis:ruby` image, and make it persistent, you can run:
+For example, in order to install a particular Ruby version which is not available on the default `travis:ruby` image, and make it persistent, you can run:
 
 ```
 docker run -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
 docker commit travis_ruby travis:ruby
 ```
 
-### Starting a console
-
-In order to start an IRB console you can run `te console` on the main host, or inside 
-the `te-main` container.

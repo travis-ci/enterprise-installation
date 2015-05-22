@@ -39,4 +39,5 @@ te start
 # enable memory and swap accounting (optional, but recommended)
 sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"/' /etc/default/grub
 
-reboot
+echo 'Installation complete.'
+echo 'It is recommended that this host is restarted before running jobs through it'
