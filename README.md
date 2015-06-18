@@ -38,7 +38,7 @@ The recommended installation of the Platform host is done through running the fo
 
 This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
-Once the script has run you can navigate to http://<hostname>:8800 to complete the setup.
+Once the script has run you can navigate to `https://<hostname>:8800` to complete the setup.
 
 From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
 
