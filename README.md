@@ -34,7 +34,7 @@ The recommended installation of the Platform host is done through running the fo
 
 `curl -sSL https://enterprise.travis-ci.com/install | sudo sh`
 
-(We recommend downloading the reading the script before running it)
+(We recommend downloading and reading the script before running it)
 
 This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
 
