@@ -5,7 +5,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 wget -qO- https://get.docker.io/gpg | apt-key add -
  
-echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 apt-get update
  
 apt-get install -y linux-image-extra-`uname -r` lxc lxc-docker-1.0.0
