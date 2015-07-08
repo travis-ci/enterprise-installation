@@ -59,20 +59,30 @@ For setting up a Worker host you'll need the RabbitMQ password, which you can fi
 
 Before running the following commands, please make sure you are logged in as as user who has access to sudo.
 
+```bash
+curl -s https://enterprise.travis-ci.com/install/worker -o /tmp/installer
+```
+
 If the Worker host is running on EC2 please run the following command:
 
-```
-curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | sudo AWS=true bash
+```bash
+sudo bash /tmp/installer \
+ --travis_enterprise_host="travis.myhostname.com" \
+ --travis_enterprise_security_token="my-rabbitmq-password"` \
+ --aws=true
 ```
 
 Otherwise run:
 
-```
-curl -R https://raw.githubusercontent.com/travis-ci/enterprise-installation/master/setup-worker.sh | sudo bash
+```bash
+sudo bash /tmp/installer \
+ --travis_enterprise_host="travis.myhostname.com" \
+ --travis_enterprise_security_token="my-rabbitmq-password"`
 ```
 
 If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
-```
+
+```bash
 ...
 # If you need Docker to use an HTTP proxy, it can also be specified here.
 export http_proxy="http://proxy.mycompany.corp:8080/"
@@ -91,37 +101,19 @@ You can check for new releases by going to the management interface dashboard (h
 
 ### Updating your Travis CI Enterprise Worker
 
-In order to update the Docker images and restart the Worker you can run the following on each worker host:
+In order to update the Worker, you can run the following on each worker host:
 
 ```
-te pull
-te start
+sudo apt-get update
+sudo apt-get install travis-worker
 ```
 
 
 ### Inspecting logs and running services
 
-On both hosts the logs are located at /var/travis/log/travis.log, but also symlinked to /var/log/travis.log for convenience.
+On the Platform you can find the main log file at `/var/travis/log/travis.log`. They are also symlinked to `/var/log/travis.log` for convenience.
 
-
-### Configuring your Worker installation with advanced options
-
-During normal install you'll be asked to provide a few required configuration
-settings, however there are more configuration settings that can be specified.
-
-The following configuration groups are currently available:
-
-```
-rabbitmq - RabbitMQ configuration options
-s3       - S3 bucket credentials for dependency caching
-worker   - number of VMs to be used
-```
-
-eg. 
-
-```
-te configure --group worker
-```
+On the Worker you can find the main log file at `/var/log/upstart/travis-worker.log`
 
 
 ### Starting a build container on the worker host (debug containers)
