@@ -32,7 +32,9 @@ The OAuth app registered will use the domain name pointing to your Platform host
 
 The recommended installation of the Platform host is done through running the following script on the host:
 
-`curl -sSL https://enterprise.travis-ci.com/install | sudo sh`
+```bash
+curl -sSL https://enterprise.travis-ci.com/install | sudo sh
+```
 
 (We recommend downloading and reading the script before running it)
 
