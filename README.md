@@ -125,6 +125,43 @@ On the Platform you can find the main log file at `/var/travis/log/travis.log`. 
 On the Worker you can find the main log file at `/var/log/upstart/travis-worker.log`
 
 
+### Options for customizing the Worker
+
+The following options can be customized in `/etc/default/travis-worker`. It is recommended to have all Workers use the same config.
+
+By default Jobs can run for a maximum of 50 minutes. You can increase, or decrease, this using the following setting:
+```bash
+TRAVIS_WORKER_HARD_TIMOUT="50m0s"
+```
+
+This allows you to customize how many jobs are run by the worker. Each Worker runs 2 Jobs by default. Each Job requires 2 CPU cores, so if your host has only 4 cores and you set this to `3`, you will see errors in the Worker logs. Please do not set this to be higher than CPU cores divided by 2.
+```bash
+TRAVIS_WORKER_POOL_SIZE="2"
+```
+
+Each Worker should have a unique hostname, making it easier to determine where jabs ran. By default this is set to the `hostname` of the host the Worker is running on.
+```bash
+TRAVIS_WORKER_HOSTNAME="<hostname>"
+```
+
+The Platform comes setup with a self signed SSL certificate, this option allows the Worker to talk to the Platform via SSL but ignore the verification warnings.
+```bash
+TRAVIS_WORKER_BUILD_API_INSECURE_SKIP_VERIFY="false"
+```
+
+If you would like to setup S3 dependency caching for your builds, you can use the following example config:
+```bash
+TRAVIS_WORKER_BUILD_CACHE_FETCH_TIMEOUT="600"
+TRAVIS_WORKER_BUILD_CACHE_PUSH_TIMEOUT="3000"
+TRAVIS_WORKER_BUILD_CACHE_S3_ACCESS_KEY_ID="<access_key_id>"
+TRAVIS_WORKER_BUILD_CACHE_S3_SECRET_ACCESS_KEY="<secret_access_key>"
+TRAVIS_WORKER_BUILD_CACHE_S3_BUCKET="<caching_bucket>"
+TRAVIS_WORKER_BUILD_CACHE_S3_REGION="us-east-1"
+TRAVIS_WORKER_BUILD_CACHE_S3_SCHEME="https"
+TRAVIS_WORKER_BUILD_CACHE_TYPE="s3"
+```
+
+
 ### Starting a build container on the worker host (debug containers)
 
 In order to start a build container on a Travis CI Enterprise Worker host you can do the following:
