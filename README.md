@@ -33,7 +33,8 @@ The OAuth app registered will use the domain name pointing to your Platform host
 The recommended installation of the Platform host is done through running the following script on the host:
 
 ```bash
-curl -sSL https://enterprise.travis-ci.com/install | sudo sh
+curl -sSL https://enterprise.travis-ci.com/install -o /tmp/installer
+sudo bash /tmp/installer
 ```
 
 (We recommend downloading and reading the script before running it)
@@ -62,7 +63,7 @@ For setting up a Worker host you'll need the RabbitMQ password, which you can fi
 Before running the following commands, please make sure you are logged in as as user who has access to sudo.
 
 ```bash
-curl -s https://enterprise.travis-ci.com/install/worker -o /tmp/installer
+curl -sSL https://enterprise.travis-ci.com/install/worker -o /tmp/installer
 ```
 
 If the Worker host is running on EC2 please run the following command:
