@@ -100,6 +100,13 @@ It is highly recommended to reboot you host after completing the installaion.
 
 You can check for new releases by going to the management interface dashboard (`https://<hostname>:8800`) and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
 
+It is also recommended to run the following commands on the Platform host afterwards:
+
+```
+sudo apt-get update
+sudo apt-get install replicated replicated-ui replicated-agent replicated-updater
+```
+
 
 ### Updating your Travis CI Enterprise Worker
 
