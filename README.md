@@ -98,7 +98,7 @@ It is highly recommended to reboot you host after completing the installaion.
 
 ### Updating your Travis CI Enterprise Platform
 
-You can check for new releases by going to the management interface dashboard (http://<hostname>:8800) and clicking on 'Check Now'. If an update is available you will be able to read the release notes and install the update.
+You can check for new releases by going to the management interface dashboard (`https://<hostname>:8800`) and clicking on the 'Check Now' button. If an update is available you will be able to read the release notes and install the update.
 
 
 ### Updating your Travis CI Enterprise Worker
