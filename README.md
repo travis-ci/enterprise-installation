@@ -33,8 +33,8 @@ The OAuth app registered will use the domain name pointing to your Platform host
 The recommended installation of the Platform host is done through running the following script on the host:
 
 ```bash
-curl -sSL https://enterprise.travis-ci.com/install -o /tmp/installer
-sudo bash /tmp/installer
+curl -sSL -o /tmp/installer.sh https://enterprise.travis-ci.com/install
+sudo bash /tmp/installer.sh
 ```
 
 (We recommend downloading and reading the script before running it)
@@ -47,12 +47,10 @@ From here you can upload your trial license key, add your GitHub OAuth details, 
 
 If you are running the Platform host on EC2, we recommend using an image which uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
 
-If you are behind a web proxy and Docker fails to download the image(s), please edit ```/etc/default/docker``` and set your proxy there.
-```
-...
-# If you need Docker to use an HTTP proxy, it can also be specified here.
-export http_proxy="http://proxy.mycompany.corp:8080/"
-...
+If you are behind a web proxy you can run the following install commands:
+```bash
+curl -sSL -x http://<proxy>:<port> -o /tmp/installer.sh https://enterprise.travis-ci.com/install
+sudo bash /tmp/installer.sh http-proxy=http://<proxy>:<port>
 ```
 
 
