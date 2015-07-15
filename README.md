@@ -166,6 +166,21 @@ TRAVIS_WORKER_BUILD_CACHE_TYPE="s3"
 ```
 
 
+### Adding a custom root SSL certificate to the Platform
+
+If your GitHub Enterprise instance uses a special (e.g. self-signed) root certificate, then you will want to import this to your Platform instance so it can connect via SSL.
+
+In order to provide a root certificate you can place it in ```/etc/travis/ssl/ca-certificates```, for example:
+
+```
+/etc/travis/ssl/ca-certificates/some-name.crt
+```
+
+Then restart the Platform by loggin into the Management UI and stopping, and then starting, Travis CI Enterprise.
+
+During startup all certificate files in this directory will be symlinked to ```/usr/shared/ca-certificates``` and ```/usr/local/shared/ca-certificates``` and ```update-ca-certificates``` will be run.
+
+
 ### Starting a build container on the worker host (debug containers)
 
 In order to start a build container on a Travis CI Enterprise Worker host you can do the following:
