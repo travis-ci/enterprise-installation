@@ -130,7 +130,7 @@ The following options can be customized in `/etc/default/travis-worker`. It is r
 
 By default Jobs can run for a maximum of 50 minutes. You can increase, or decrease, this using the following setting:
 ```bash
-TRAVIS_WORKER_HARD_TIMOUT="50m"
+TRAVIS_WORKER_HARD_TIMEOUT="50m"
 ```
 
 If no log output has been received over 10mins the job is cancelled as it is assumed the job stalled. You can customize this timeout using the following setting:
