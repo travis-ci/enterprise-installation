@@ -211,15 +211,15 @@ In order to start a build container on a Travis CI Enterprise Worker host you ca
 
 ```
 # start a container and grab the port
-id=$(docker run -H tcp://0.0.0.0:4243 -d -p 22 travis:php /sbin/init)
-port=$(docker port -H tcp://0.0.0.0:4243 $id 22 | sed 's/.*://')
+id=$(docker -H tcp://0.0.0.0:4243 run -d -p 22 travis:php /sbin/init)
+port=$(docker -H tcp://0.0.0.0:4243 port $id 22 | sed 's/.*://')
 
 # ssh into the container (the default password is travis)
 ssh travis@localhost -p $port
 
 # stop and remove the container
-docker kill -H tcp://0.0.0.0:4243 $id
-docker rm -H tcp://0.0.0.0:4243 $id
+docker -H tcp://0.0.0.0:4243 kill $id
+docker -H tcp://0.0.0.0:4243 rm $id
 ```
 
 
