@@ -238,7 +238,7 @@ The basic idea is to:
 For example, in order to install a particular Ruby version which is not available on the default `travis:ruby` image, and make it persistent, you can run:
 
 ```
-docker run -H tcp://0.0.0.0:4243 -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
-docker commit -H tcp://0.0.0.0:4243 travis_ruby travis:ruby
+docker -H tcp://0.0.0.0:4243 run -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
+docker -H tcp://0.0.0.0:4243 commit travis_ruby travis:ruby
 ```
 
