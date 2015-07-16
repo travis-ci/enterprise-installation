@@ -141,6 +141,15 @@ On the Worker you can find the main log file at `/var/log/upstart/travis-worker.
 
 ### Options for customizing the Worker
 
+The configuration for connecting to the Travis CI Enterprise Platform, including the RabbitMQ password, can be found in ```/etc/default/travis-enterprise```.
+
+If you need to change the hostname the Worker should connect to, or the RabbitMQ password, you can do so by updating:
+
+```bash
+export TRAVIS_ENTERPRISE_HOST="enterprise.hostname.corp"
+export TRAVIS_ENTERPRISE_SECURITY_TOKEN="super-secret-password"
+```
+
 The following options can be customized in `/etc/default/travis-worker`. It is recommended to have all Workers use the same config.
 
 By default Jobs can run for a maximum of 50 minutes. You can increase, or decrease, this using the following setting:
