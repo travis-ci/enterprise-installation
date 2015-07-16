@@ -187,15 +187,15 @@ In order to start a build container on a Travis CI Enterprise Worker host you ca
 
 ```
 # start a container and grab the port
-id=$(docker run -d -p 22 travis:php /sbin/init)
-port=$(docker port $id 22 | sed 's/.*://')
+id=$(docker run -H tcp://0.0.0.0:4243 -d -p 22 travis:php /sbin/init)
+port=$(docker port -H tcp://0.0.0.0:4243 $id 22 | sed 's/.*://')
 
 # ssh into the container (the default password is travis)
 ssh travis@localhost -p $port
 
 # stop and remove the container
-docker kill $id
-docker rm $id
+docker kill -H tcp://0.0.0.0:4243 $id
+docker rm -H tcp://0.0.0.0:4243 $id
 ```
 
 
@@ -214,7 +214,7 @@ The basic idea is to:
 For example, in order to install a particular Ruby version which is not available on the default `travis:ruby` image, and make it persistent, you can run:
 
 ```
-docker run -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
-docker commit travis_ruby travis:ruby
+docker run -H tcp://0.0.0.0:4243 -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
+docker commit -H tcp://0.0.0.0:4243 travis_ruby travis:ruby
 ```
 
