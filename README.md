@@ -117,6 +117,21 @@ sudo apt-get install travis-worker
 ```
 
 
+### Stopping and Starting the Worker
+
+The Travis CI Worker is installed as an upstart service. The following commands can be used to check the status of the service, and to start or stop it.
+
+```bash
+$ sudo status travis-worker
+travis-worker start/running, process 9622
+
+$ sudo stop travis-worker
+travis-worker stop/waiting
+
+$ sudo start travis-worker
+travis-worker start/running, process 16339
+```
+
 ### Inspecting logs and running services
 
 On the Platform you can find the main log file at `/var/travis/log/travis.log`. They are also symlinked to `/var/log/travis.log` for convenience.
