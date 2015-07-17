@@ -69,7 +69,7 @@ If the Worker host is running on EC2 please run the following command:
 ```bash
 sudo bash /tmp/installer \
  --travis_enterprise_host="travis.myhostname.com" \
- --travis_enterprise_security_token="my-rabbitmq-password"` \
+ --travis_enterprise_security_token="my-rabbitmq-password" \
  --aws=true
 ```
 
@@ -78,7 +78,7 @@ Otherwise run:
 ```bash
 sudo bash /tmp/installer \
  --travis_enterprise_host="travis.myhostname.com" \
- --travis_enterprise_security_token="my-rabbitmq-password"`
+ --travis_enterprise_security_token="my-rabbitmq-password"
 ```
 
 If you are behind a web proxy and Docker fails to download the image(s), edit ```/etc/default/docker``` and set your proxy there. Re-run the script above.
