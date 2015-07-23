@@ -58,7 +58,7 @@ sudo bash /tmp/installer.sh http-proxy=http://<proxy>:<port>
 
 For setting up a Worker host you'll need the RabbitMQ password, which you can retrieve from the Travis CI Enterprise Platform management UI under Settings.
 
-Before running the following commands, please make sure you are logged in as an user who has sudo access.
+Before running the following commands, please make sure you are logged in as a user who has sudo access.
 
 ```bash
 curl -sSL https://enterprise.travis-ci.com/install/worker -o /tmp/installer
