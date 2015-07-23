@@ -9,19 +9,18 @@ Installing Travis CI Enterprise
 - A Travis CI Enterprise license file
 - A GitHub Enterprise OAuth app
 
-
 ## Host Machines
 
 The standard setup consists of two hosts, the Travis CI Enterprise Platform which hosts the web UI and related services, and one or more Worker hosts which run the tests/jobs in isolated containers using LXC and Docker.
 
-If you are using EC2 then we recommend the **c3.2xlarge** instance types.
+If you are using EC2 we recommend the **c3.2xlarge** instance types.
 
 For other setups we recommend hosts with 16 gigs of RAM and 8 CPUs.
 
 
 ## Register a GitHub OAuth app
 
-Travis CI Enterprise talks to GitHub Enterprise via OAuth. You will need to create an OAuth app on your GitHub Enterprise which Travis CI Enterprise can connect to.
+Travis CI Enterprise talks to GitHub Enterprise via OAuth. You will need to create an OAuth app on your GitHub Enterprise that Travis CI Enterprise can connect to.
 
 The OAuth app registered will use the domain name pointing to your Platform host for  the Homepage URL (e.g. https://travis-ci.your-domain.com). Append /api to this for the Authorization callback URL (e.g. https://travis-ci.your-domain.com/api).
 
@@ -45,9 +44,10 @@ Once the script has run you can navigate to `https://<hostname>:8800` to complet
 
 From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
 
-If you are running the Platform host on EC2, we recommend using an image which uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
+If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
 
 If you are behind a web proxy you can run the following install commands:
+
 ```bash
 curl -sSL -x http://<proxy>:<port> -o /tmp/installer.sh https://enterprise.travis-ci.com/install
 sudo bash /tmp/installer.sh http-proxy=http://<proxy>:<port>
@@ -56,9 +56,9 @@ sudo bash /tmp/installer.sh http-proxy=http://<proxy>:<port>
 
 ### Setting up a Travis CI Enterprise Worker
 
-For setting up a Worker host you'll need the RabbitMQ password, which you can find from the Travis CI Enterprise Platform management UI.
+For setting up a Worker host you'll need the RabbitMQ password, which you can retrieve from the Travis CI Enterprise Platform management UI under Settings.
 
-Before running the following commands, please make sure you are logged in as as user who has access to sudo.
+Before running the following commands, please make sure you are logged in as an user who has sudo access.
 
 ```bash
 curl -sSL https://enterprise.travis-ci.com/install/worker -o /tmp/installer
@@ -90,7 +90,7 @@ export http_proxy="http://proxy.mycompany.corp:8080/"
 ...
 ```
 
-It is highly recommended to reboot you host after completing the installaion.
+It is highly recommended to reboot you host after completing the installation.
 
 
 ## Maintenance
@@ -200,7 +200,7 @@ In order to provide a root certificate you can place it in ```/etc/travis/ssl/ca
 /etc/travis/ssl/ca-certificates/some-name.crt
 ```
 
-Then restart the Platform by loggin into the Management UI and stopping, and then starting, Travis CI Enterprise.
+Log in to the Platform Management UI and restart Travis CI Enterprise (stop and start).
 
 During startup all certificate files in this directory will be symlinked to ```/usr/shared/ca-certificates``` and ```/usr/local/shared/ca-certificates``` and ```update-ca-certificates``` will be run.
 
@@ -241,4 +241,5 @@ For example, in order to install a particular Ruby version which is not availabl
 docker -H tcp://0.0.0.0:4243 run -it --name travis_ruby travis:ruby su travis -l -c 'rvm install [version]'
 docker -H tcp://0.0.0.0:4243 commit travis_ruby travis:ruby
 ```
+
 
