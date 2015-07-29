@@ -5,7 +5,7 @@ Installing Travis CI Enterprise
 
 ## Prerequisites
 
-- Two dedicated hosts or hypervisors (VMWare, OpenStack using KVM, or EC2) with Ubuntu 14.04 installed
+- Two dedicated hosts or hypervisors (VMWare, OpenStack using KVM, or EC2) with **Ubuntu 14.04** installed
 - A Travis CI Enterprise license file
 - A GitHub Enterprise OAuth app
 
