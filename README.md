@@ -37,16 +37,7 @@ The recommended installation of the Platform host is done through running the fo
 curl -sSL -o /tmp/installer.sh https://enterprise.travis-ci.com/install
 sudo bash /tmp/installer.sh
 ```
-
 (We recommend downloading and reading the script before running it)
-
-This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
-
-Once the script has run you can navigate to `https://<hostname>:8800` to complete the setup.
-
-From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
-
-If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
 
 If you are behind a web proxy you can run the following install commands:
 
@@ -55,6 +46,17 @@ curl -sSL -x http://<proxy>:<port> -o /tmp/installer.sh https://enterprise.travi
 sudo bash /tmp/installer.sh http-proxy=http://<proxy>:<port>
 ```
 
+If you are running the Platform host on EC2, we recommend using an image that uses EBS for the root volume, as well as allocating 30 gigs of space to it. It is also recommended to not destroy the volume on instance termination.
+
+This will install the management application, which takes care of downloading and installing the Travis CI Platform, as well as providing a simple web interface for setting up the platform, and for viewing runtime metrics.
+
+Once the script has run you can navigate to `https://<hostname>:8800` to complete the setup.
+
+From here you can upload your trial license key, add your GitHub OAuth details, and upload an SSL certificate or enter SMTP details (both optional).
+
+#### Known issues with custom certificates
+
+In case you are using custom certificates signed by a custom authority, I you will need to append the root certificate in your certificate file as well. Otherwise, Nginx may refuse to start. 
 
 ### Setting up a Travis CI Enterprise Worker
 
